@@ -10,6 +10,10 @@
 #include <cmath>
 #include <random>
 
+
+#ifndef MATRIX
+#define MATRIX
+
 template <typename T>
 class Matrix {
 
@@ -27,6 +31,24 @@ public:
   Matrix() {
     spdlog::info("matrix has been created");
   }
+
+
+  Matrix( Matrix<T>& _matrix ) : Matrix() {
+    // (*this) = _matrix;
+    this->_rows = _matrix._rows;
+    this->_cols = _matrix._cols;
+    this->_matrix = _matrix._matrix;
+  }
+
+  //
+  // Matrix<T>& operator=( Matrix<T>& _matrix ) {
+  //   this->rows = _matrix.rows;
+  //   this->cols = _matrix.cols;
+  //   this->get = _matrix.get;
+  //   this->sym = _matrix.sym;
+  //   this->_matrix = _matrix.matrix;
+  //   return *this;
+  // }
 
   // todo : change for any input stream
   Matrix(  const std::string &file_name ) : Matrix() {
@@ -67,30 +89,28 @@ public:
   int cols() { return this->_cols; }
   int rows() { return this->_rows; }
 
+
 private:
 
 };
+
+
 template <typename T>
-std::ostream& operator<< ( std::ostream& os, Matrix<T>& _matrix );
-//
-// template<typename T>
-// std::vector<T>& operator *( Matrix<T>& _matrix, std::vector<T>& vec) const {
-//
-// }
-
-template<typename T>
-std::vector<T>& operator *( Matrix<T>& _matrix, std::vector<T>& vec);
-
-template<typename T>
+std::vector<T>& operator *(Matrix<T>& _matrix, std::vector<T>& vec);
+template <typename T>
 T norm(std::vector<T>& v, std::vector<T>& u );
-
-template<typename T>
+template <typename T>
 T norm(std::vector<T>& v);
-
-template<typename T>
+template <typename T>
 std::vector<T>& normailize (std::vector<T>& vec);
 
-std::vector<double> genraterandomVec(int size);
 
+std::vector<double> genraterandomVec(int size);
 std::vector<double>& orthprojection(std::vector<double>& v,
     std::vector<double>& u);
+
+template <typename T>
+std::ostream& operator<< ( std::ostream& os, Matrix<T>& _matrix );
+
+#include "matrix.tpp"
+#endif
