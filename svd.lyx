@@ -1,0 +1,569 @@
+#LyX 2.3 created this file. For more info see http://www.lyx.org/
+\lyxformat 544
+\begin_document
+\begin_header
+\save_transient_properties true
+\origin unavailable
+\textclass heb-article
+\use_default_options true
+\begin_modules
+customHeadersFooters
+\end_modules
+\maintain_unincluded_children false
+\language hebrew
+\language_package default
+\inputencoding auto
+\fontencoding global
+\font_roman "default" "David"
+\font_sans "default" "David"
+\font_typewriter "default" "David"
+\font_math "auto" "auto"
+\font_default_family default
+\use_non_tex_fonts true
+\font_sc false
+\font_osf true
+\font_sf_scale 100 100
+\font_tt_scale 100 100
+\use_microtype false
+\use_dash_ligatures true
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
+\paperfontsize default
+\spacing single
+\use_hyperref false
+\papersize a4paper
+\use_geometry true
+\use_package amsmath 1
+\use_package amssymb 1
+\use_package cancel 1
+\use_package esint 1
+\use_package mathdots 1
+\use_package mathtools 1
+\use_package mhchem 1
+\use_package stackrel 1
+\use_package stmaryrd 1
+\use_package undertilde 1
+\cite_engine basic
+\cite_engine_type default
+\biblio_style plain
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\justification true
+\use_refstyle 1
+\use_minted 0
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\leftmargin 1cm
+\topmargin 1.8cm
+\rightmargin 1cm
+\bottommargin 1.5cm
+\headheight 0cm
+\headsep 1cm
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation indent
+\paragraph_indentation default
+\is_math_indent 0
+\math_numbering_side default
+\quotes_style english
+\dynamic_quotes 0
+\papercolumns 1
+\papersides 1
+\paperpagestyle fancy
+\tracking_changes false
+\output_changes false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\end_header
+
+\begin_body
+
+\begin_layout Standard
+אלגוריתם למציאת מטריצת 
+\begin_inset Formula $SVD$
+\end_inset
+
+.
+ נסמן, 
+\begin_inset Formula $C_{0}=A^{T}A$
+\end_inset
+
+ וב 
+\begin_inset Formula $\lambda_{1}...\lambda_{n}$
+\end_inset
+
+, 
+\begin_inset Formula $v_{1}...v_{n}$
+\end_inset
+
+ את הע
+\begin_inset Quotes erd
+\end_inset
+
+ע והו
+\begin_inset Quotes erd
+\end_inset
+
+ע של 
+\begin_inset Formula $C_{0}$
+\end_inset
+
+.
+ וב 
+\begin_inset Formula $m=argmax\left\{ \lambda_{i}\right\} $
+\end_inset
+
+ נראה את נכונות הטענה, כלומר שהסדרה 
+\begin_inset Formula $b_{k+1}=\frac{C_{0}b_{k}}{\left\Vert C_{0}b_{k}\right\Vert }\underset{k\rightarrow\infty}{\rightarrow}v_{m}$
+\end_inset
+
+ לכל תנאי התחלה עבורם 
+\begin_inset Formula $b_{0_{m}}\ne0$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+הוכחה לפי סעיף קודם נזכיר כי לפי התרגיל הקודם : 
+\begin_inset Formula $C_{0}=VD^{2}V^{T}$
+\end_inset
+
+ כאשר 
+\begin_inset Formula $V$
+\end_inset
+
+ אורטונורמלית מכאן-
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+b_{k+1}=\frac{C_{0}b_{k}}{\left\Vert C_{0}b_{k}\right\Vert }=\frac{VD^{2}V^{T}b_{k}}{\left\Vert VD^{2}V^{T}b_{k}\right\Vert }=\frac{VD^{2}V^{T}\frac{VD^{2}V^{T}b_{k-1}}{\left\Vert VD^{2}V^{T}b_{k-1}\right\Vert }}{\left\Vert VD^{2}V^{T}\frac{VD^{2}V^{T}b_{k-1}}{\left\Vert VD^{2}V^{T}b_{k-1}\right\Vert }\right\Vert }
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+ניעזר בכך ש 
+\begin_inset Formula $V$
+\end_inset
+
+ אורטונורמלית ולכן 
+\begin_inset Formula $V^{T}V=\mathbb{I}$
+\end_inset
+
+.
+ בנוסף 
+\begin_inset Formula $\left\Vert VD^{2}V^{T}b_{k-1}\right\Vert \in\mathbb{R}$
+\end_inset
+
+ ולכן ניתן לצמצם את הפקטורים כי 
+\begin_inset Formula $||\alpha u||=\alpha||u||$
+\end_inset
+
+.
+ נקבל כי
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+b_{k+1}=\frac{VD^{4}V^{T}b_{k-1}}{\left\Vert VD^{4}V^{T}b_{k-1}\right\Vert }
+\]
+
+\end_inset
+
+ ניפתח באופן איטרטיבי )אינדוקצה(.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+b_{k+1}=\frac{VD^{2k}V^{T}b_{0}}{\left\Vert VD^{2k}V^{T}b_{0}\right\Vert }
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+נפעיל כמה טריקים, אם 
+\begin_inset Formula $b_{0}\sim\mathcal{D}$
+\end_inset
+
+ אז גם 
+\begin_inset Formula $V^{T}b_{0}\sim\mathcal{D}$
+\end_inset
+
+ )כפל של גודל דטרמינסטי במשתנה מקרי משמר התפלגות(.
+ בנוסף מאורטונורמליות 
+\begin_inset Formula $V$
+\end_inset
+
+ משמרת נורמה, נסמן 
+\begin_inset Formula $\tilde{b}_{0}=V^{T}b_{0}$
+\end_inset
+
+ וב- 
+\begin_inset Formula $b_{k+1}^{(j)}$
+\end_inset
+
+ את הקורדינטה ה 
+\begin_inset Formula $j$
+\end_inset
+
+ של 
+\begin_inset Formula $b_{k+1}$
+\end_inset
+
+.ונצטמצם ל-
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{align*}
+b_{k+1} & =\frac{VD^{2k}\tilde{b_{0}}}{\left\Vert VD^{2k}\tilde{b_{0}}\right\Vert }=\frac{VD^{2k}\tilde{b_{0}}}{\left\Vert D^{2k}\tilde{b_{0}}\right\Vert }\\
+\Rightarrow b_{k+1}^{(l)} & =\sum_{j}V_{l,j}\frac{\lambda_{j}^{k}\tilde{b_{0}^{(j)}}}{\left(\sum_{i}^{n}\left(\lambda_{i}^{k}\tilde{b_{0}^{(i)}}\right)^{2}\right)^{\frac{1}{2}}}=\sum_{j}V_{l,j}\frac{\left[\frac{\lambda_{j}}{\lambda_{m}}\right]^{k}\frac{\tilde{b_{0}^{(i)}}}{\tilde{b_{0}^{(m)}}}}{\left(1+\sum_{i\neq m}^{n}\left(\left[\frac{\lambda_{i}}{\lambda_{m}}\right]^{k}\frac{\tilde{b_{0}^{(i)}}}{\tilde{b_{0}^{(m)}}}\right)^{2}\right)^{\frac{1}{2}}}
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+כאשר ונקבל שלכל 
+\begin_inset Formula $j\neq m$
+\end_inset
+
+ הביטוי - 
+\begin_inset Formula $\left[\frac{\lambda_{i}}{\lambda_{m}}\right]^{k}\rightarrow0$
+\end_inset
+
+ ולכן 
+\begin_inset Formula $b_{k+1}^{(l)}=V_{l,m}$
+\end_inset
+
+ כלומר 
+\begin_inset Formula $b_{k+1}$
+\end_inset
+
+ שווה לעמודת 
+\begin_inset Formula $m$
+\end_inset
+
+ ב 
+\begin_inset Formula $V$
+\end_inset
+
+ וזאת בדיוק 
+\begin_inset Formula $v_{m}$
+\end_inset
+
+.
+ )כי 
+\begin_inset Formula $V$
+\end_inset
+
+ היא המטריצה המלכסנת את 
+\begin_inset Formula $A^{T}A$
+\end_inset
+
+( 
+\begin_inset Formula $\blacksquare$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+שלב שני, 
+\series bold
+הורדת מימד 
+\series default
+,נגריל עכשיו וקטור חדש כאשר 
+\begin_inset Formula $\tilde{b_{0}^{(m)}}=0$
+\end_inset
+
+ ונשים לב כי 
+\begin_inset Formula $\lambda_{m}^{k}\tilde{b_{0}^{(m)}}=0$
+\end_inset
+
+, מכאן נסמן ב
+\begin_inset Formula $m^{\prime}$
+\end_inset
+
+ את הע
+\begin_inset Quotes erd
+\end_inset
+
+ע השני בגודלו ונקבל בדיוק באות הדרך כי 
+\begin_inset Formula $b_{k+1}$
+\end_inset
+
+ מתכנס ל 
+\begin_inset Formula $v_{m^{\prime}}$
+\end_inset
+
+.
+ נמשיך באופן איטרטיבי ונמצא כך את 
+\begin_inset Formula $V$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+כמובן ש 
+\begin_inset Formula $C_{0}=VD^{2}V^{T}\Rightarrow V^{T}C_{0}V=D^{2}$
+\end_inset
+
+ ולכן מצאנו גם את 
+\begin_inset Formula $D$
+\end_inset
+
+.
+ ולבסוף נישתמש ב 
+\begin_inset Formula $U=D^{-1}VC_{0}$
+\end_inset
+
+ כדי למצוא את 
+\begin_inset Formula $U$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+זמן ריצה:
+\end_layout
+
+\begin_layout Standard
+נחסום את 
+\begin_inset Formula $||b_{k},v_{m}||$
+\end_inset
+
+ :
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{align*}
+||b_{k},v_{m}|| & =||\sum_{j}V_{m,j}\frac{\left[\frac{\lambda_{j}}{\lambda_{m}}\right]^{k}\frac{\tilde{b_{0}^{(i)}}}{\tilde{b_{0}^{(m)}}}}{\left(1+\sum_{i\neq m}^{n}\left(\left[\frac{\lambda_{i}}{\lambda_{m}}\right]^{k}\frac{\tilde{b_{0}^{(i)}}}{\tilde{b_{0}^{(m)}}}\right)^{2}\right)^{\frac{1}{2}}}-V_{m,j}||\le\\
+ & \le||\sum_{j}V_{m,j}\left[\frac{\lambda_{j}}{\lambda_{m}}\right]^{k}\frac{\tilde{b_{0}^{(i)}}}{\tilde{b_{0}^{(m)}}}-V_{m,j}||\le\\
+ & \overset{*}{\le}\sqrt{\left(n-1\right)\left(V_{m^{\prime},j}\left[\frac{\lambda_{m^{\prime}}}{\lambda_{m}}\right]^{k}\frac{\tilde{b_{0}^{(m^{\prime})}}}{\tilde{b_{0}^{(m)}}}\right)^{2}}
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+כאשר 
+\begin_inset Formula $m^{\prime}$
+\end_inset
+
+ הוא האינדקס של הע
+\begin_inset Quotes erd
+\end_inset
+
+ע השני הכי גדול.
+ 
+\begin_inset Formula $*$
+\end_inset
+
+ כמובן שהאי-שיוון נכון אחל ממקום מסויים )צריך לבחור 
+\begin_inset Formula $k$
+\end_inset
+
+ מספיק גדול כדי לבטיח שהפקטור
+\begin_inset Formula $V_{m^{\prime},j}\frac{\tilde{b_{0}^{(m^{\prime})}}}{\tilde{b_{0}^{(m)}}}$
+\end_inset
+
+ יהי יחסית לא משמעותי ביחס ל 
+\begin_inset Formula $\left[\frac{\lambda_{m^{\prime}}}{\lambda_{m}}\right]$
+\end_inset
+
+, אינפי
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+1
+\numeric off
+(.
+ נמשיך :
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\le\sqrt{n}V_{m^{\prime},j}\left[\frac{\lambda_{m^{\prime}}}{\lambda_{m}}\right]^{k}\frac{\tilde{b_{0}^{(m^{\prime})}}}{\tilde{b_{0}^{(m)}}}\le\varepsilon
+\]
+
+\end_inset
+
+ ולכן עבור דיוק של לפחות 
+\begin_inset Formula $\varepsilon$
+\end_inset
+
+ נידרוש : 
+\begin_inset Formula 
+\begin{align*}
+k & \ge\log_{\frac{\lambda_{m^{\prime}}}{\lambda_{m}}}\left(\frac{\tilde{b_{0}^{(m)}}}{\tilde{b_{0}^{(m^{\prime})}}V_{m^{\prime},j}\sqrt{n}}\varepsilon\right)=\log_{\frac{\lambda_{m}}{\lambda_{m^{\prime}}}}\left(\frac{\tilde{b_{0}^{(m^{\prime})}}V_{m^{\prime},j}\sqrt{n}}{\tilde{b_{0}^{(m)}}\varepsilon}\right)\ge\\
+ & \log_{\frac{\lambda_{m}}{\min\lambda}}\left(\frac{\tilde{b_{0}^{(m^{\prime})}}V_{m^{\prime},j}\sqrt{n}}{\tilde{b_{0}^{(m)}}\varepsilon}\right)=\mathcal{O}\left(\ln\left(\frac{\sqrt{n}}{\varepsilon}\right)\right)
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+ההיפוך בסיסים ב 
+\begin_inset Formula $\log$
+\end_inset
+
+ היה חיוני מאחר ו- 
+\begin_inset Formula $\frac{\lambda_{m^{\prime}}}{\lambda_{m}}\le1$
+\end_inset
+
+ בהצגה זאת אנחנו לא מרוויחים אינפורמציה אינטואטיבית.
+\end_layout
+
+\begin_layout Standard
+נכחיש כרגע את ההשפעות של שגיאת 
+\begin_inset Formula $\varepsilon$
+\end_inset
+
+ על האיטרציות הבאות.
+ חישוב 
+\begin_inset Formula $b^{k+1}$
+\end_inset
+
+ מ 
+\begin_inset Formula $b^{k}$
+\end_inset
+
+ דורש 
+\begin_inset Formula $\mathcal{O}\left(n\right)$
+\end_inset
+
+ עבודה )נשים לב שאת הסכום במכנה אנו מחשבים רק פעם אחת עבור כל הקורדינטות
+ של 
+\begin_inset Formula $b^{k+1}$
+\end_inset
+
+( , ולכן נבקבל שאת 
+\begin_inset Formula $V$
+\end_inset
+
+ ניתן לחשב ב 
+\begin_inset Formula $\mathcal{O}\left(n^{2}\ln\left(\frac{\sqrt{n}}{\varepsilon}\right)\right)$
+\end_inset
+
+.
+ 
+\begin_inset Newline newline
+\end_inset
+
+את 
+\begin_inset Formula $U$
+\end_inset
+
+ ניתן לחשב באותו אופן, נפעיל את אותה וריאציה על 
+\begin_inset Formula $AA^{T}=C_{0}^{T}$
+\end_inset
+
+.
+ 
+\begin_inset Formula $D$
+\end_inset
+
+ מורכבת מ העע
+\begin_inset Quotes erd
+\end_inset
+
+מ של 
+\begin_inset Formula $A$
+\end_inset
+
+, נעבור עמודה עמודה ב 
+\begin_inset Formula $v_{m}\in V$
+\end_inset
+
+ וניפתור את המשווה 
+\begin_inset Formula $Av_{m}=\lambda v_{m}$
+\end_inset
+
+, כאשר מספיק לנו לפתור רק עבור הקורדינטנה הראשונה שאינה שווה ל -
+\begin_inset Formula $0$
+\end_inset
+
+ כלומר 
+\begin_inset Formula $\lambda_{m}=\frac{\sum A_{0}^{i}v_{m}^{i}}{v_{m}^{0}}$
+\end_inset
+
+ כלומר חישוב 
+\begin_inset Formula $\lambda_{m}$
+\end_inset
+
+ דורש 
+\begin_inset Formula $\mathcal{O}\left(n\right)$
+\end_inset
+
+ וחישוב 
+\begin_inset Formula $D$
+\end_inset
+
+ דורש 
+\begin_inset Formula $\mathcal{O}\left(n^{2}\right)$
+\end_inset
+
+ ולכן סך הכל נישאר עם זמן ריצה אסימפטוטי של 
+\begin_inset Formula $\mathcal{O}\left(n^{2}\ln\left(\frac{\sqrt{n}}{\varepsilon}\right)\right)$
+\end_inset
+
+.
+\end_layout
+
+\end_body
+\end_document
