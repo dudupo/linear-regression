@@ -12,12 +12,11 @@ class SVD {
   //Matrix<double> &diag;
 
 public:
-  SVD( Matrix<double> &U, Matrix<double> &V, Diag &diag) :  U(U), V(V), diag(diag)  {
+  SVD( Matrix<double> U, Matrix<double> V, Diag diag) :  U(U), V(V), diag(diag)  {
     spdlog::info("creating SVD matrix");
   }
 
   SVD& transpose() {
-    //std::swap(this->U.transpose(), this->V.transpose());
     Matrix<double> * temp =  &this->U;
     Matrix<double> * temp2 = &this->V;
     this->U = *temp2;
@@ -43,6 +42,10 @@ public:
     return this->V;
   }
 
+  Diag& getDiag() {
+    return this->diag;
+  }
+
   friend std::ostream& operator<< ( std::ostream& os, SVD& _svdmatrix );
 
 private:
@@ -60,9 +63,8 @@ std::string printvec( std::vector<double> &v ){
 
 std::ostream& operator<< ( std::ostream& os, SVD& _svdmatrix )
 {
-  //std::cout << _svdmatrix.getU();
   os << _svdmatrix.getU();
-  os << printvec( _svdmatrix.diag  );
+  os << printvec( _svdmatrix.getDiag()  );
   os << _svdmatrix.getV();
   return os;
 }

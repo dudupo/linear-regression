@@ -19,7 +19,7 @@ std::vector<std::vector<double>> FindMapping( Matrix<double>& _matrix ){
 
   std::vector<std::vector<double>> mappMatrixU;
   _matrix = _matrix.transpose();
-  for ( int j = 0; j < 5; j++) {
+  for ( int j = 0; j < _matrix.rows(); j++) {
 
     std::vector<double> initial = genraterandomVec(_matrix.cols());
     initial = normailize(initial);
@@ -75,6 +75,7 @@ SVD& genereateSVD ( Matrix<double>& _matrix ){
    eigensV = FindMapping(_matrix.transpose());
 
   Matrix<double> V (_matrix.rows(), _matrix.rows(), eigensV );
+
   SVD * ret = new SVD(U, V, LAMBDAS);
   return *ret;
 }
