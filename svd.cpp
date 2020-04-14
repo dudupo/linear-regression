@@ -1,22 +1,57 @@
+#include <cstdio>
+#include <cstdlib>
 #include <iostream>
-#include <Python.h>
-#include <pybind11/pybind11.h>
+#include "spdlog/spdlog.h"
+#include <vector>
+#include <fstream>
+#include <string>
+#include <utility>
+#include <ostream>
+#include <cmath>
+#include <random>
+#include "svd.h"
 
-int add(int i, int j) {
-    return i + j;
+
+void test1 (){
+  spdlog::info("starting test 1");
+  Matrix<double> _matrix("./tests/test1");
+  std::vector<std::vector<double>> V =  {
+         { 0, 0, 0 },
+         { 1, 1, 1 },
+         { 2, 3, 4 },
+         { -1, -2, 0 }
+   };
+
+  for (auto&  v : V ){
+      spdlog::info("mull by : {}", printvec(v));
+      spdlog::info("resoults : {}", printvec(_matrix* v));
+  }
+}
+void test2 (){
+  spdlog::info("test 2, testing transpose");
+  Matrix<double> _matrix("./tests/test0");
+  std::cout << _matrix;
+  _matrix.transpose();
+  std::cout << _matrix;
+  _matrix.transpose();
+  std::cout << _matrix;
+}
+void test3 () {
+  spdlog::info("testing 4x3 dimensions");
+  Matrix<double> _matrix("./tests/test2");
+  std::cout << _matrix << '\n';
+  std::cout << _matrix.transpose() << '\n';
 }
 
-PYBIND11_MODULE(example, m) {
-    m.doc() = "pybind11 example plugin"; // optional module docstring
-
-    m.def("add", &add, "A function which adds two numbers");
-}
 
 
 int main(int argc, char const *argv[]) {
 
-  std::cout << "hello world 2" << '\n';
+//  test1();
+//  test2();
 
-  /* code */
+  Matrix<double> _matrix("./tests/test3");
+  SVD(_matrix);
+
   return 0;
 }

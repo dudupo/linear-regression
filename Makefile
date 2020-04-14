@@ -1,23 +1,23 @@
-CC = g++ -DPy_TRACE_DEFS
-CCFLAGS = -c -Wall -shared -std=c++11
-PYFLAGS = `python -m pybind11 --includes`
-PYCONFIG = `python3-config --extension-suffix`
+CC = g++  -std=c++2a
+CCFLAGS = -c
 #LDFLAGS = -lm -L/usr/lib/ -l boost_system -l boost_filesystem
-INCLDEFLAGS = -I./pybind11/include
+INCLDEFLAGS = -I./tabulate/include  -I./spdlog/include
 
-CLASSES = svd
+CLASSES = matrix svd
 
 OBJS = $(patsubst %, %.o,  $(CLASSES))
 
 
 # c++ -O3 -Wall -shared -std=c++11 -fPIC `python3 -m pybind11 --includes` example.cpp -o example`python3-config --extension-suffix`
 
-#$(LDFLAGS)
-svd: $(OBJS)
-	$(CC) $(PYCONFIG)  $(OBJS) -o svdlib
 
-%.o: %.cpp
-	$(CC)  $(CCFLAGS) $(PYFLAGS) $*.cpp $()
+matrix: matrix.cpp matrix.h
+	g++ -std=c++2a $(INCLDEFLAGS) matrix.cpp  -o matrix.o
+
+svd:
+	g++ -std=c++2a $(INCLDEFLAGS) -o svdlib svd.cpp matrix.cpp 
+
+
 
 depend:
 	makedepend -- $(CCFLAGS) -- $(SRCS)
@@ -26,7 +26,7 @@ clean:
 	rm -rf *.o
 
 prod:
-	make FractalDrawer
+	make svd
 	rm -rf *.o *.h *.cpp Makefile
 	chmod 755 svdlib
 tar:
