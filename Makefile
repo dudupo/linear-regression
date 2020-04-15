@@ -20,10 +20,11 @@ OBJS = $(patsubst %, %.o,  $(CLASSES))
 # svd.o : matrix.o svd.cpp svd.h
 # 	g++ -o svd.cpp -std=c++2a $(INCLDEFLAGS)
 
-svd: matrix.ttp matrix.h svd.cpp svd.h
+svd: #matrix.ttp matrix.h svd.cpp svd.h
+	g++ -o svdlib ./svd.cpp -I./spdlog/include/ -Wall
 	# g++ -c matrix.cpp -std=c++2a $(INCLDEFLAGS)
 	# g++ -c svd.cpp -std=c++2a $(INCLDEFLAGS)
-	g++ -std=c++2a -g -o svdlib.exe svd.cpp  $(INCLDEFLAGS) -Wall -lm matrix.o
+	#g++ -std=c++2a -g -o svdlib.exe svd.cpp  $(INCLDEFLAGS) -Wall -lm matrix.o
 	# g++ -o svdlib matrix.o svd.o
 
 

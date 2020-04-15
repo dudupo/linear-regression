@@ -17,13 +17,13 @@
 template <typename T>
 class Matrix {
 
-  T _ij_accses(int i ,int j) { return this->_matrix[i][j]; };
-  T _ji_accses(int i ,int j) { return this->_matrix[j][i]; };
+  T _ij_accses(size_t i ,size_t j) { return this->_matrix[i][j]; };
+  T _ji_accses(size_t i ,size_t j) { return this->_matrix[j][i]; };
 
 
-  T  (Matrix<T>::*get)(int, int) = &_ij_accses;
-  T  (Matrix<T>::*sym)(int, int) = &_ji_accses;
-  int _rows, _cols;
+  T  (Matrix<T>::*get)(size_t, size_t) = &_ij_accses;
+  T  (Matrix<T>::*sym)(size_t, size_t) = &_ji_accses;
+  size_t _rows, _cols;
 
 public:
   std::vector<std::vector<T>> _matrix;
@@ -41,14 +41,18 @@ public:
   }
 
   //
-  // Matrix<T>& operator=( Matrix<T>& _matrix ) {
-  //   this->rows = _matrix.rows;
-  //   this->cols = _matrix.cols;
-  //   this->get = _matrix.get;
-  //   this->sym = _matrix.sym;
-  //   this->_matrix = _matrix.matrix;
-  //   return *this;
-  // }
+  Matrix<T>& operator=( Matrix<T>& _matrix ) {
+    this->_rows = _matrix.rows();
+    this->_cols = _matrix.cols();
+    this->_matrix = _matrix._matrix;
+    return *this;
+  }
+  Matrix<T>& operator=( Matrix<T>&& _matrix ) {
+    this->_rows = _matrix.rows();
+    this->_cols = _matrix.cols();
+    this->_matrix = _matrix._matrix;
+    return *this;
+  }
 
   // todo : change for any input stream
   Matrix(  const std::string &file_name ) : Matrix() {
@@ -61,33 +65,33 @@ public:
     this->_matrix = std::vector<std::vector<T>> (this->_rows,\
        std::vector<T>(this->_cols));
 
-    for ( int i = 0; i < this->_rows; i++ )
-      for (int j = 0; j < this->_cols; j++)
+    for ( size_t i = 0; i < this->_rows; i++ )
+      for (size_t j = 0; j < this->_cols; j++)
         read_file >> this->_matrix[i][j];
 
 
     read_file.close();
   }
 
-  Matrix(int _rows, int _cols, std::vector<std::vector<T>> &_matrix) : Matrix() {
+  Matrix(size_t _rows, size_t _cols, std::vector<std::vector<T>> &_matrix) : Matrix() {
     this->_matrix = _matrix;
     this->_rows = _rows;
     this->_cols = _cols;
   }
 
-  T operator ()(int i, int j) {
+  T operator ()(size_t i, size_t j) {
     return  (this->*get)(i,j);
   }
 
   Matrix& transpose( ) {
-    spdlog::info("matrix has been transposed");
+    //spdlog::info("matrix has been transposed");
     std::swap(this->get, this->sym);
     std::swap(this->_rows, this->_cols);
     return *this;
   }
 
-  int cols() { return this->_cols; }
-  int rows() { return this->_rows; }
+  size_t cols() { return this->_cols; }
+  size_t rows() { return this->_rows; }
 
 
 private:
@@ -105,7 +109,7 @@ template <typename T>
 std::vector<T>& normailize (std::vector<T>& vec);
 
 
-std::vector<double> genraterandomVec(int size);
+std::vector<double> genraterandomVec(size_t size);
 std::vector<double>& orthprojection(std::vector<double>& v,
     std::vector<double>& u);
 
