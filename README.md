@@ -15,7 +15,7 @@ the svd decompaction, calculating the vectors by ascending order ( matched to th
 ### (II) results of polynomial regression aren't even similar to the expectations.     
 
 ## Testing
-note that you might want to decrease the of the matrix.
+note that you might want to decrease the size of the matrix.
 ```
 mingw32-make
 python ./scripts/svdtest_gen.py
