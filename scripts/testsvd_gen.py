@@ -12,12 +12,12 @@ if __name__ == '__main__':
              hist + " ".join( str(i) for i in _matrix.ravel() ))
 
     def _call(_filename_in, _filename_outs ):
-        system( ".\\svdlib.exe  {0} {1}".format(_filename_in, " ".join( _filename_outs) ))
+        system( ".\\bin\\svdlib.exe  {0} {1}".format(_filename_in, " ".join( _filename_outs) ))
 
 
     hists = [ "./tests/svd/{2}/svd-u/", "./tests/svd/{2}/svd-s", "./tests/svd/{2}/svd-vh/" ]
-    for i in range(10 , 100, 10):
-        for j in range(1 , 100, 10):
+    for i in range(1 , 10):
+        for j in range(1 , 10):
             _matrix = np.random.randn(i, j)
             _filename_in  = "./tests/svd/test-svd-{0}-{1}"
             _filename_out = "./tests/svd/out/test-svd-{0}-{1}"
